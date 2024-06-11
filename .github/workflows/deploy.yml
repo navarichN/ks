@@ -3,11 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Замените на вашу основную ветку, если она отличается
+      - master  # Replace with your main branch if different
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # Explicitly grant write permissions
 
     steps:
       - name: Checkout code
@@ -16,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.7.0'  # Укажите нужную версию Node.js
+          node-version: '20.7.0'  # Specify the required Node.js version
 
       - name: Install dependencies
         run: npm install
@@ -28,5 +31,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # Укажите директорию, которую нужно задеплоить
-          publish_branch: gh-pages  # Ветка для деплоя
+          publish_dir: ./dist  # Specify the directory to deploy
+          publish_branch: gh-pages  # Deployment branch
