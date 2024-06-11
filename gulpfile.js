@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const less = require('gulp-less');
 const plumber = require('gulp-plumber');
 
-// Компиляция less в CSS и минимизация
+// Compile LESS to CSS
 gulp.task('less', function () {
     return gulp.src('src/styles/*.less')
         .pipe(plumber())
@@ -10,20 +10,26 @@ gulp.task('less', function () {
         .pipe(gulp.dest('dist/styles'));
 });
 
-// Копирование файлов из node_modules
+// Copy files from node_modules
 gulp.task('copy', function () {
     return gulp.src(['node_modules/jquery/dist/jquery.min.js'])
         .pipe(gulp.dest('dist/node_modules/jquery/dist'));
 });
 
-// Отслеживание изменений (не включать в задачу по умолчанию)
-gulp.task('watch', function () {
-    gulp.watch('src/styles/*.less', gulp.series('less'));
-    gulp.watch('*.html');
+// Copy HTML files to dist
+gulp.task('html', function () {
+    return gulp.src('*.html')
+        .pipe(gulp.dest('dist'));
 });
 
-// Задача для сборки (без watch)
-gulp.task('build', gulp.series('less', 'copy'));
+// Watch for changes (do not include in default task)
+gulp.task('watch', function () {
+    gulp.watch('src/styles/*.less', gulp.series('less'));
+    gulp.watch('*.html', gulp.series('html'));
+});
 
-// Задача по умолчанию (включает только сборку)
+// Build task (without watch)
+gulp.task('build', gulp.series('less', 'copy', 'html'));
+
+// Default task (includes only build)
 gulp.task('default', gulp.series('build'));
