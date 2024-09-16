@@ -35,7 +35,7 @@ gulp.task('html', function () {
 
 // Copy images to dist
 gulp.task('images', function () {
-    return gulp.src('assets/images/**/*.{png,jpg,jpeg,gif,svg}')
+    return gulp.src('assets/images/**/*.{png,jpg,jpeg,gif,svg}', {encoding: false})
         .pipe(debug({title: 'Images:'}))
         .pipe(gulp.dest('dist/assets/images'));
 });
